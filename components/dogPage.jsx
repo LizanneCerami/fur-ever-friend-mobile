@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { TouchableOpacity, View } from "react-native";
 import puppocketpic from '../assets/puppocketpic.png';
 import pawprintheart from '../assets/pawprintheart.png'
+import rejecticon from '../assets/rejecticon.png'
 
 export default function Home({ navigation }) {
   const [ thisDog, setThisDog ] = useState(0);
@@ -72,25 +73,27 @@ export default function Home({ navigation }) {
           </Box>
 
           <Box flexDirection="row" justifyContent="space-around" w="90%" ml={5} mt={5} bgColor="amber.700">
-            <Text justifyContent="center" w="100%" p={5} alignContent="space-around" textAlign="center"> {dogList[thisDog].about} </Text>
+            <Text justifyContent="center" w="100%" p={5} alignContent="space-around" textAlign="center"> {dogList[thisDog]?.about} </Text>
           </Box>
 
-          <Box flexDirection="row" justifyContent="flex-end" w="95%">
+          <Box flexDir="row" w="100" justifyContent="space-around">
             <TouchableOpacity>
               <Image 
-                source={ pawprintheart }
-                size={10}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image 
-                source={ pawprintheart }
-                size={10}
+                source={ rejecticon }
+                size={12}
+                justifyContent="flex-start"
+                alt="X button"
               />
             </TouchableOpacity>
 
-
-
+            <TouchableOpacity>
+              <Image 
+                source={ pawprintheart }
+                size={9}
+                justifyContent="flex-end"
+                alt="heart button"
+              />
+            </TouchableOpacity>
           </Box>
 
           <Box flexDirection="row" justifyContent="flex-start" w="95%">
