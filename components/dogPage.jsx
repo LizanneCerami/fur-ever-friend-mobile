@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import  pawprintheart  from '../assets/pawprintheart.png';
-import puppocketpic from '../assets/puppocketpic.png'
-// 
+import { Box, Text, Image } from "native-base"
+import { useState, useEffect } from "react"
+import { TouchableOpacity, View } from "react-native";
+import puppocketpic from '../assets/puppocketpic.png';
+import pawprintheart from '../assets/pawprintheart.png'
+
 export default function Home({ navigation }) {
-  const [thisDog, setThisDog] = useState(0);
-  const [dogList, setDogList] = useState();
+  const [ thisDog, setThisDog ] = useState(0);
+  const [ dogList, setDogList ] = useState(0);
 
   useEffect(() => {
     fetch("https://fur-ever-friend-api.web.app/dogList")
@@ -14,63 +15,89 @@ export default function Home({ navigation }) {
       .catch(alert);
   }, []);
 
-  const getNextDog = () => {
+  const getNextDog = (swipeX) => {
+    if(swipeX < 20) {
+      const saveDog = dogList[thisDog]
+      alert("Saving " + saveDog.name)
+      // put in pup pocket
+    }
     if(thisDog < dogList.length - 1) setThisDog(thisDog + 1)
     else setThisDog(0)
-    
   }
     return (
-      <>
-      <View style={styles.container}>
-        {dogList && dogList[0] && (
-        
-      <>
-      <TouchableOpacity onPress={() => navigation.navigate('Pup Pocket') }>
+    <>
+        <Box justifyContent="center">
+          <Box flexDirection="row" justifyContent="flex-end" w="95%">
 
-          <Image
-            source={ puppocketpic }
-            style={{ width: 18, height: 18}}
-          />
-      </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Pup Pocket')}>
+            <Image
+              source={ puppocketpic }
+              size={5}
+              mt={3}
+              mb={10}
 
-        <Text style={{ fontSize: 30, fontWeight: 700, paddingTop: 30, paddingBottom: 100 }}>Fur-Ever Friend</Text>
+              alt="Pup Pocket Icon"
 
-          <TouchableOpacity onPress={getNextDog}>
-            <Image source={{uri: dogList[thisDog].picture}}
-              style={{ width: 350, height: 300, borderRadius: 10, borderColor: "#696969", borderWidth: 1 }} 
-              />
-          </TouchableOpacity>
-              
-            <Text style={{ textAlign: "center", paddingTop:20 }}> {dogList[thisDog].name} </Text>
-              
-            <View style={{ flexDirection: "row", padding: 15, alignContent: "space-between"}}>
-              <Text style={{ textAlign: "left", paddingRight: 20 }}> {dogList[thisDog].age} </Text>
-              <Text style={{textAlign: "center"}}> {dogList[thisDog].sex} </Text>
-              <Text style={{textAlign: "right", paddingLeft: 20}}> {dogList[thisDog].breed} </Text>
-            </View>
-
-            <Text style={{textAlign:"center"}}> {dogList[thisDog].about} </Text>
-      </>
-        )}
-
-          <TouchableOpacity style= {{ paddingTop:135, paddingLeft:300 }}>
-            <Image 
-              source={ pawprintheart }
-              style={{ width: 44, height: 44}}
             />
           </TouchableOpacity>
+          </Box>
+      { dogList && dogList[thisDog] && (
+          <View
+            alignItems="center"
+            justifyContent="center"
+            onTouchStart={e => this.touchX = e.nativeEvent.pageX}
+            onTouchEnd={e => {
+              const swipeX = Math.round(this.touchX - e.nativeEvent.pageX)
+              if(swipeX > 20 || swipeX < - 20) getNextDog(swipeX)
+              }
+            }
+          >
+            <Image 
+              size={325}
+              borderRadius={15}
+              borderColor="blueGray.400"
+              borderWidth={1}
+              source={{
+                uri: dogList[thisDog].picture
+              }}
+                alt="Dog profiles pictures"
+            />
+          </View>
 
-      </View>
+          )}
+          <Box flexDirection="row" justifyContent="space-around" w="100%"  pt={5}>
+            <Text > {dogList[thisDog]?.age} </Text>
+            <Text > {dogList[thisDog]?.sex} </Text>
+            <Text > {dogList[thisDog]?.breed} </Text>
+          </Box>
+
+          <Box flexDirection="row" justifyContent="space-around" w="90%" ml={5} mt={5} bgColor="amber.700">
+            <Text justifyContent="center" w="100%" p={5} alignContent="space-around" textAlign="center"> {dogList[thisDog].about} </Text>
+          </Box>
+
+          <Box flexDirection="row" justifyContent="flex-end" w="95%">
+            <TouchableOpacity>
+              <Image 
+                source={ pawprintheart }
+                size={10}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image 
+                source={ pawprintheart }
+                size={10}
+              />
+            </TouchableOpacity>
+
+
+
+          </Box>
+
+          <Box flexDirection="row" justifyContent="flex-start" w="95%">
+          </Box>
+          
+
+        </Box>
     </>
     )
-  }
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#afeeee",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
-  
+}
