@@ -2,8 +2,7 @@ import { Box, Text, Image } from "native-base"
 import { useState, useEffect } from "react"
 import { TouchableOpacity, View } from "react-native";
 import puppocketpic from '../assets/puppocketpic.png';
-import pawprintheart from '../assets/pawprintheart.png'
-import rejecticon from '../assets/rejecticon.png'
+
 
 export default function Home({ navigation }) {
   const [ thisDog, setThisDog ] = useState(0);
@@ -27,7 +26,6 @@ export default function Home({ navigation }) {
   }
     return (
     <>
-        <Box justifyContent="center">
           <Box flexDirection="row" justifyContent="flex-end" w="95%">
 
           <TouchableOpacity onPress={() => navigation.navigate('Pup Pocket')}>
@@ -76,31 +74,6 @@ export default function Home({ navigation }) {
             <Text justifyContent="center" w="100%" p={5} alignContent="space-around" textAlign="center"> {dogList[thisDog]?.about} </Text>
           </Box>
 
-          <Box flexDir="row" w="100" justifyContent="space-around">
-            <TouchableOpacity>
-              <Image 
-                source={ rejecticon }
-                size={12}
-                justifyContent="flex-start"
-                alt="X button"
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <Image 
-                source={ pawprintheart }
-                size={9}
-                justifyContent="flex-end"
-                alt="heart button"
-              />
-            </TouchableOpacity>
-          </Box>
-
-          <Box flexDirection="row" justifyContent="flex-start" w="95%">
-          </Box>
-          
-
-        </Box>
     </>
     )
 }
