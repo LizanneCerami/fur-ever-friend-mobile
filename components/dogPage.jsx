@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
     else setThisDog(0);
   };
 
-  const handleUpdate = async (dog, match) => {
+  const handleUpdate = async (dog, match) => { // adds dog to match list
     const dogObj = {
       match: match,
     };
@@ -110,8 +110,6 @@ export default function Home({ navigation }) {
                 </Box>
 
                 <ScrollView
-                  // flexDirection="row"
-                  // justifyContent="space-around"
                   w="90%"
                   maxHeight={200}
                   ml={5}

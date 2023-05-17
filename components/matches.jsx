@@ -1,38 +1,33 @@
-import { Box, Text, Image } from "native-base"
-import { useContext, useState, useEffect } from "react"
+import { Box, Text, Image, ScrollView } from "native-base"
+import { useContext } from "react"
 import { MatchListContext } from "../App";
 
 export default function Matches() {
 
-  useEffect(() => {
-    fetch("https://fur-ever-friend-api.web.app/dogList")
-      .then((resp) => resp.json())
-      .then(setDogList)
-      .catch(alert);
-  }, []);
-
-  const [thisDog, setThisDog] = useState(0);
-  const [dogList, setDogList] = useState(0);
-
   const { matchList } = useContext(MatchListContext);
 
   return (
+    <ScrollView>
     <Box>
       {matchList ?
         matchList.map(dog => (
-          
-          <Box>
-            <Image
-              size={20}
-              source={{
-              uri: dogList[thisDog].picture
-                }}
-              alt="Dog profile pictures"
-            />
-          <Text>
-            {dog.name}
+         
+        
+          <Box mt={20}>
+            <Box flexDirection="row" justifyContent="left" mt={5} mb={5}>
+              <Image
+                h={150}
+                w={150}
+                source={{
+                uri: dog.picture
+                  }}
+                alt="Dog profile pictures"
+              />
+            <Text ml={5} fontSize={20}>
+              {dog.name}
 
-          </Text>
+            </Text>
+          </Box>
 
           </Box> 
         ))
@@ -40,5 +35,6 @@ export default function Matches() {
       }
 
     </Box>
+    </ScrollView>
   )
 }
