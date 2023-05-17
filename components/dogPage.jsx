@@ -1,4 +1,4 @@
-import { Box, Text, Image, ScrollView } from "native-base";
+import { Box, Text, Image, ScrollView, Toast } from "native-base";
 import { useState, useEffect, useContext } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { MatchListContext } from "../App";
@@ -27,9 +27,7 @@ export default function Home({ navigation }) {
     }
   }, [dogList]);
 
-  const getNextDog = (match = false) => {
-    const saveDog = dogList[thisDog];
-    handleUpdate(saveDog, match);
+  const getNextDog = () => {
     if (thisDog < dogList.length - 1) setThisDog(thisDog + 1);
     else setThisDog(0);
   };
@@ -50,10 +48,11 @@ export default function Home({ navigation }) {
     );
     const data = await response.json();
     setDogList(data);
+      getNextDog();
   };
 
   return (
-    <>
+    <Box bgColor="cyan.50">
       <Box flexDirection="row" justifyContent="flex-end" w="95%">
         <TouchableOpacity onPress={() => navigation.navigate("Pup Pocket")}>
           <Image
@@ -75,7 +74,20 @@ export default function Home({ navigation }) {
                 onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
                 onTouchEnd={(e) => {
                   const swipeX = Math.round(this.touchX - e.nativeEvent.pageX);
-                  if (swipeX > 20 || swipeX < -20) getNextDog(swipeX < 20);
+                  if (swipeX < -20){
+                    Toast.show({
+                      title: "Dog added to PupPocket",
+                      bg: "darkBlue.200",
+                      w: 200,
+                      h: 50,
+                      p: 16
+
+                    })
+
+                    handleUpdate(dogList[thisDog], true)} // adds dog to puppocket
+                  
+
+                  if ( swipeX > 20) getNextDog(); // goes to next dog without adding to puppocket
                 }}
               >
                 <Image
@@ -92,7 +104,7 @@ export default function Home({ navigation }) {
 
               <Box>
                 <Box flexDirection="row" justifyContent="center" mt={5}>
-                  <Text fontSize={25} fontWeight="700">
+                  <Text fontSize={25} color="darkBlue.600" fontWeight="700">
                     {" "}
                     {dogList[thisDog]?.name}{" "}
                   </Text>
@@ -104,17 +116,21 @@ export default function Home({ navigation }) {
                   w="100%"
                   pt={5}
                 >
-                  <Text> {dogList[thisDog]?.age} </Text>
-                  <Text> {dogList[thisDog]?.sex} </Text>
-                  <Text> {dogList[thisDog]?.breed} </Text>
+                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.age} </Text>
+                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.sex} </Text>
+                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.breed} </Text>
                 </Box>
 
                 <ScrollView
                   w="90%"
                   maxHeight={200}
                   ml={5}
-                  mt={5}
-                  bgColor="amber.700"
+                  mt={2}
+                  bgColor="white"
+                  borderColor="coolGray.300"
+                  borderWidth={2}
+                  borderRadius={15}
+
                 >
                   <Text
                     justifyContent="center"
@@ -122,6 +138,8 @@ export default function Home({ navigation }) {
                     p={5}
                     alignContent="space-around"
                     textAlign="center"
+                    color="darkBlue.600"
+                    fontSize={15}
                   >
                     {dogList[thisDog]?.about}
                   </Text>
@@ -131,7 +149,7 @@ export default function Home({ navigation }) {
 
             <Box justifyContent="flex-end">
               <Box flexDir="row" w="95%" justifyContent="space-between">
-                <TouchableOpacity onPress={() => getNextDog(false)}>
+                <TouchableOpacity onPress={() => handleUpdate(dogList[thisDog],false)}>
                   <Image
                     source={rejecticon}
                     size={12}
@@ -141,7 +159,7 @@ export default function Home({ navigation }) {
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => getNextDog(true)}>
+                <TouchableOpacity onPress={() => handleUpdate(dogList[thisDog],true)}>
                   <Image
                     source={pawprintheart}
                     size={9}
@@ -156,6 +174,6 @@ export default function Home({ navigation }) {
           </>
         )}
       </Box>
-    </>
+    </Box>
   );
 }

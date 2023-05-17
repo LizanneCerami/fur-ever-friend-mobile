@@ -14,19 +14,25 @@ export default function Matches() {
          
         
           <Box mt={20}>
-            <Box flexDirection="row" justifyContent="left" mt={5} mb={5}>
+            <Box flexDirection="row" justifyContent="left"  ml={3}>
               <Image
                 h={150}
                 w={150}
+                borderRadius="100"
                 source={{
                 uri: dog.picture
                   }}
                 alt="Dog profile pictures"
               />
-            <Text ml={5} fontSize={20}>
-              {dog.name}
+            <Box>
+              <Text ml={5} mt={7} fontSize={20} bold>
+                {dog.name}
+              </Text>
+              <Text ml={5} mt={5}>
+              {dog.contact}
+              </Text>
+            </Box>
 
-            </Text>
           </Box>
 
           </Box> 
