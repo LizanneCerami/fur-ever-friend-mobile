@@ -22,7 +22,8 @@ export default function App() {
               component={Home}
               options={{ title: "Fur-Ever Friend" }}
             />
-            <Stack.Screen name="Pup Pocket" component={Matches} />
+            <Stack.Screen name="Pup Pocket" component={Matches} 
+              options={{ headerBackTitle: "Home", title: " . . . . Pup Pocket . . . . " }} />
           </Stack.Navigator>
         </NavigationContainer>
       </MatchListContext.Provider>

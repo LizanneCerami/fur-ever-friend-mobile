@@ -7,7 +7,6 @@ import pawprintheart from "../assets/pawprintheart.png";
 import rejecticon from "../assets/rejecticon.png";
 
 export default function Home({ navigation }) {
-  
   const [thisDog, setThisDog] = useState(0);
   const [dogList, setDogList] = useState(0);
 
@@ -32,7 +31,8 @@ export default function Home({ navigation }) {
     else setThisDog(0);
   };
 
-  const handleUpdate = async (dog, match) => { // adds dog to match list
+  const handleUpdate = async (dog, match) => {
+    // adds dog to match list
     const dogObj = {
       match: match,
     };
@@ -48,108 +48,142 @@ export default function Home({ navigation }) {
     );
     const data = await response.json();
     setDogList(data);
-      getNextDog();
+    getNextDog();
   };
 
   return (
-    <Box bgColor="cyan.50">
+    <Box flex={1} bgColor="cyan.50">
       <Box flexDirection="row" justifyContent="flex-end" w="95%">
         <TouchableOpacity onPress={() => navigation.navigate("Pup Pocket")}>
           <Image
             source={puppocketpic}
-            size={5}
+            size={7}
             mt={3}
-            mb={10}
+            mb={3}
             alt="Pup Pocket Icon"
+            // add indicator
           />
         </TouchableOpacity>
       </Box>
       <Box>
         {dogList && dogList[thisDog] && (
           <>
-            <Box h={670}>
-              <View
-                alignItems="center"
-                justifyContent="center"
-                onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
-                onTouchEnd={(e) => {
-                  const swipeX = Math.round(this.touchX - e.nativeEvent.pageX);
-                  if (swipeX < -20){
-                    Toast.show({
-                      title: "Dog added to PupPocket",
-                      bg: "darkBlue.200",
-                      w: 200,
-                      h: 50,
-                      p: 16
-
-                    })
-
-                    handleUpdate(dogList[thisDog], true)} // adds dog to puppocket
-                  
-
-                  if ( swipeX > 20) getNextDog(); // goes to next dog without adding to puppocket
-                }}
+            <Box h={685}>
+              <Box 
+                borderColor={"blueGray.400"}
+                borderWidth={3}
+                ml={2}
+                mr={2}
+                pt={4}
+                pb={6}
+                bgColor="#f5deb3"
+                borderRadius={20}
               >
-                <Image
-                  size={325}
-                  borderRadius={15}
-                  borderColor="blueGray.400"
-                  borderWidth={1}
-                  source={{
-                    uri: dogList[thisDog].picture,
+                <View
+                  alignItems="center"
+                  justifyContent="center"
+                  onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
+                  onTouchEnd={(e) => {
+                    const swipeX = Math.round(
+                      this.touchX - e.nativeEvent.pageX
+                    );
+                    if (swipeX < -20) {
+                      Toast.show({
+                        title: "Dog added to PupPocket",
+                        bg: "cyan.700",
+                        w: 200,
+                        h: 50,
+                        p: 16,
+                      });
+
+                      handleUpdate(dogList[thisDog], true);
+                    } // adds dog to puppocket
+
+                    if (swipeX > 20) getNextDog(); // goes to next dog without adding to puppocket
                   }}
-                  alt="Dog profile pictures"
-                />
-              </View>
-
-              <Box>
-                <Box flexDirection="row" justifyContent="center" mt={5}>
-                  <Text fontSize={25} color="darkBlue.600" fontWeight="700">
-                    {" "}
-                    {dogList[thisDog]?.name}{" "}
-                  </Text>
-                </Box>
-
-                <Box
-                  flexDirection="row"
-                  justifyContent="space-around"
-                  w="100%"
-                  pt={5}
                 >
-                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.age} </Text>
-                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.sex} </Text>
-                  <Text color="darkBlue.600" fontSize={15} bold> {dogList[thisDog]?.breed} </Text>
-                </Box>
+                  <Image
+                    // size={340}
+                    w={360}
+                    h={300}
+                    borderRadius={15}
+                    borderColor="blueGray.400"
+                    borderWidth={1}
+                    source={{
+                      uri: dogList[thisDog].picture,
+                    }}
+                    alt="Dog profile pictures"
 
-                <ScrollView
-                  w="90%"
-                  maxHeight={200}
-                  ml={5}
-                  mt={2}
-                  bgColor="white"
-                  borderColor="coolGray.300"
-                  borderWidth={2}
-                  borderRadius={15}
+                    // add animation to swipe
+                    // add wag/jiggle to image
+                  />
+                </View>
 
-                >
-                  <Text
-                    justifyContent="center"
+                <Box>
+                  <Box flexDirection="row" justifyContent="center" mt={5}>
+                    <Text
+                      fontSize={35}
+                      color="cyan.700"
+                      fontWeight="900"
+                      italic
+                    >
+                      {" "}
+                      {dogList[thisDog]?.name}{" "}
+                    </Text>
+                  </Box>
+
+                  <Box
+                    flexDirection="row"
+                    justifyContent="space-around"
                     w="100%"
-                    p={5}
-                    alignContent="space-around"
-                    textAlign="center"
-                    color="darkBlue.600"
-                    fontSize={15}
+                    pt={1}
+                    pb={1}
                   >
-                    {dogList[thisDog]?.about}
-                  </Text>
-                </ScrollView>
+                    <Text color="cyan.700" fontSize={15} bold>
+                      {" "}
+                      {dogList[thisDog]?.age}{" "}
+                    </Text>
+                    <Text color="cyan.700" fontSize={15} bold>
+                      {" "}
+                      {dogList[thisDog]?.sex}{" "}
+                    </Text>
+                    <Text color="cyan.700" fontSize={15} bold>
+                      {" "}
+                      {dogList[thisDog]?.breed}{" "}
+                    </Text>
+                  </Box>
+
+                  <ScrollView
+                    w="90%"
+                    h={200}
+                    ml={5}
+                    mt={2}
+                    bgColor="whitesmoke"
+                    borderColor="blueGray.400"
+                    // borderWidth={1}
+                    borderRadius={15}
+                  >
+                    <Text
+                      justifyContent="center"
+                      w="100%"
+                      p={5}
+                      alignContent="space-around"
+                      textAlign="center"
+                      color="cyan.700"
+                      fontSize={17}
+                    >
+                      {dogList[thisDog]?.about}
+                    </Text>
+                  </ScrollView>
+                </Box>
               </Box>
             </Box>
 
             <Box justifyContent="flex-end">
               <Box flexDir="row" w="95%" justifyContent="space-between">
-                <TouchableOpacity onPress={() => handleUpdate(dogList[thisDog],false)}>
+                <TouchableOpacity
+                  onPress={() => handleUpdate(dogList[thisDog], false)}
+                >
                   <Image
                     source={rejecticon}
                     size={12}
@@ -159,7 +193,9 @@ export default function Home({ navigation }) {
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleUpdate(dogList[thisDog],true)}>
+                <TouchableOpacity
+                  onPress={() => handleUpdate(dogList[thisDog], true)}
+                >
                   <Image
                     source={pawprintheart}
                     size={9}
@@ -169,7 +205,7 @@ export default function Home({ navigation }) {
                   />
                 </TouchableOpacity>
               </Box>
-              <Text>Matches: {matchList.length}</Text>
+              {/* <Text>Matches: {matchList.length}</Text> */}
             </Box>
           </>
         )}
