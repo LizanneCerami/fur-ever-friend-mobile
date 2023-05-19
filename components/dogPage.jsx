@@ -131,9 +131,6 @@ export default function Home({ navigation }) {
                       uri: dogList[thisDog].picture,
                     }}
                     alt="Dog profile pictures"
-
-                    // add animation to swipe
-                    // add wag/jiggle to image
                   />
                 </Animated.View>
 

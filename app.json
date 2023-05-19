@@ -25,6 +25,17 @@
     },
     "web": {
       "favicon": "./assets/puppocketpic.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5f2bc7ef-c10c-4403-9e90-abc0927b846f"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5f2bc7ef-c10c-4403-9e90-abc0927b846f"
     }
   }
 }

@@ -12,7 +12,7 @@ export default function Matches() {
   const [ matches, setMatches ] = useState();
 
   useEffect(() => {
-    if(matchList && matchList.length > 0) {
+    if(matchList) {
       const _matches = matchList.map(dog => ({
         ...dog, key: dog.id
       }))
@@ -46,7 +46,7 @@ export default function Matches() {
             color="darkBlue.600"
             bold
           >
-            "{dog.item.name}""
+            {dog.item.name}
           </Text>
           <Text textAlign="center" fontSize={20} color="darkBlue.600">
             {dog.item.contact}
