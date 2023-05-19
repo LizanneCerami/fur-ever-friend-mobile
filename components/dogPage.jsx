@@ -1,6 +1,6 @@
 import { Box, Text, Image, ScrollView, Toast } from "native-base";
-import { useState, useEffect, useContext } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { useState, useEffect, useContext, useRef } from "react";
+import { TouchableOpacity, PanResponder, Animated } from "react-native";
 import { MatchListContext } from "../App";
 import puppocketpic from "../assets/puppocketpic.png";
 import pawprintheart from "../assets/pawprintheart.png";
@@ -50,6 +50,20 @@ export default function Home({ navigation }) {
     setDogList(data);
     getNextDog();
   };
+ 
+  const pan = useRef(new Animated.ValueXY()).current;
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, {dx: pan.x, dy: pan.y}]),
+      onPanResponderRelease: () => {
+        Animated.spring(pan, {
+          toValue: {x: 0, y: 0},
+          useNativeDriver: true,
+        }).start();
+      },
+    }),
+  ).current;
 
   return (
     <Box flex={1} bgColor="cyan.50">
@@ -79,7 +93,11 @@ export default function Home({ navigation }) {
                 bgColor="#f5deb3"
                 borderRadius={20}
               >
-                <View
+                <Animated.View
+                  style={{
+                    transform: [{translateX: pan.x}, {translateY: pan.y}],
+                  }}
+                  {...panResponder.panHandlers}
                   alignItems="center"
                   justifyContent="center"
                   onTouchStart={(e) => (this.touchX = e.nativeEvent.pageX)}
@@ -117,7 +135,7 @@ export default function Home({ navigation }) {
                     // add animation to swipe
                     // add wag/jiggle to image
                   />
-                </View>
+                </Animated.View>
 
                 <Box>
                   <Box flexDirection="row" justifyContent="center" mt={5}>
