@@ -10,7 +10,7 @@ export default function Home({ navigation }) {
   const [thisDog, setThisDog] = useState(0);
   const [dogList, setDogList] = useState(0);
 
-  const { matchList, setMatchList } = useContext(MatchListContext);
+  const { setMatchList } = useContext(MatchListContext);
 
   useEffect(() => {
     fetch("https://fur-ever-friend-api.web.app/dogList")
