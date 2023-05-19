@@ -84,7 +84,7 @@ export default function Matches() {
     <ImageBackground
       source={dogbackground}
       resizeMode="cover"
-      style={{ flex: 1, justifyContent: "center" }}
+      style={{ flex: 1, justifyContent: "flex-start" }}
     >
       <Box>
         {matches && (
