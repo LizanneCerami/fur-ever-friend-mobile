@@ -13,7 +13,8 @@ export default function Home({ navigation }) {
   const { setMatchList } = useContext(MatchListContext);
 
   useEffect(() => {
-    fetch("https://fur-ever-friend-api.web.app/dogList")
+    // fetch("http://192.168.1.68:5002/dogList")
+   fetch("https://fur-ever-friend-api.web.app/dogList")
       .then((resp) => resp.json())
       .then(setDogList)
       .catch(alert);
@@ -37,7 +38,8 @@ export default function Home({ navigation }) {
       match: match,
     };
     const response = await fetch(
-      `https://fur-ever-friend-api.web.app/dogList/${dog.id}`,
+     // `http://192.168.1.68:5002/dogList/${dog.id}`,
+     `https://fur-ever-friend-api.web.app/dogList/${dog.id}`,
       {
         method: "PATCH",
         headers: {

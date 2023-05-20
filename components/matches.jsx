@@ -1,6 +1,6 @@
 import { Box, Text, Image, HStack } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { ImageBackground } from "react-native";
+import { ImageBackground, Pressable } from "react-native";
 import { useContext, useState, useEffect } from "react";
 import { MatchListContext } from "../App";
 import dogbackground from "../assets/dogbackground.jpg";
@@ -65,7 +65,9 @@ export default function Matches() {
     const dogObj = {
       match: false,
     };
+    console.log("SWIPE DETECTED")
     const response = await fetch(
+     // `http://192.168.1.68:5002/dogList/${dogId}`,
       `https://fur-ever-friend-api.web.app/dogList/${dogId}`,
       {
         method: "PATCH",
@@ -78,6 +80,7 @@ export default function Matches() {
     const data = await response.json();
     const _matches = data.filter((dog) => dog.match);
     setMatchList(_matches);
+    console.log("SWIPE FINISHED")
   };
 
   return (
@@ -88,11 +91,37 @@ export default function Matches() {
     >
       <Box>
         {matches && (
+
+/*
+          // testing if click was faster
+          matches.map(dog => {
+          return (  
+          <Pressable  onPress={(e) => handleDelete(dg)}>
+          <Image
+         
+          h={150}
+          w={150}
+          borderRadius="100"
+          borderColor="yellow.500"
+          bg="darkBlue.600"
+          borderWidth={5}
+          source={{
+            uri: dog.picture,
+          }}
+          alt="Dog profile pictures"
+        />
+        </Pressable>
+          )
+          })
+*/           
+          
+        
           <SwipeListView
+          onClick={handleDelete}
             data={matches}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
-            rightOpenValue={-60}
+            rightOpenValue={-20}
             onRowDidOpen={handleDelete}
           />
         )}
